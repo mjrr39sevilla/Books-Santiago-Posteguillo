@@ -1,77 +1,134 @@
 """
-Reto Python Catálogo de colecciones
+Reto II Python Catálogo de colecciones
 Tema: Santiago Posteguillo y su obra
 """
+from catalog import (
+    add_piece,
+    list_pieces,
+    find_piece_by_id,
+    remove_piece,
+    get_catalog_summary,
+    filter_by_status,
+    get_average_price
+)
+
+
+def show_menu():
+    print("\n==================================================")
+    print("   BIBLIOTECA - OBRAS DE SANTIAGO POSTEGUILLO")
+    print("==================================================")
+    print("1. Registrar una obra (libro)")
+    print("2. Mostrar títulos de todas las obras")
+    print("3. Mostrar obras disponibles para la venta")
+    print("4. Mostrar el precio promedio de la colección")
+    print("5. Buscar obra por código/ISBN")
+    print("6. Eliminar obra del catálogo")
+    print("7. Ver resumen por saga/categoría")
+    print("8. Salir del sistema")
+
+
 def main():
-    catalog_title = "Santiago Posteguillo Collection"
-    total_books = 0
-    is_running = True
+    catalog = []
 
-    catalog = [
-        {"title": "La noche en que Frankenstein leyó El Quijote", "books_series": "Ensayo", "year": 2012},
-        {"title": "La sangre de los libros", "books_series": "Relatos", "year": 2014},
-        {"title": "Africanus: el hijo del cónsul", "books_series": "Trilogía de Africanus", "year": 2006},
-        {"title": "Las legiones malditas", "books_series": "Trilogía de Africanus", "year": 2008},
-        {"title": "La traición de Roma", "books_series": "Trilogía de Africanus", "year": 2009},
-        {"title": "Los asesinos del emperador", "books_series": "Trilogía de Trajano", "year": 2011},
-        {"title": "Circo Máximo", "books_series": "Trilogía de Trajano", "year": 2013},
-        {"title": "La legión perdida", "books_series": "Trilogía de Trajano", "year": 2016},
-        {"title": "Yo, Julia", "books_series": "Bilogía de Julia Domna", "year": 2018},
-        {"title": "Y Julia retó a los dioses", "books_series": "Bilogía de Julia Domna", "year": 2020},
-        {"title": "Roma soy yo", "books_series": "Serie de Julio César", "year": 2022},
-        {"title": "Maldita Roma", "books_series": "Serie de Julio César", "year": 2023},
-        {"title": "Los tres mundos", "books_series": "Serie de Julio César", "year": 2025},
-    ]
-    total_books = len(catalog)
-
-    print(f"=== {catalog_title} ===")
-    print(f"Initial catalog loaded with {total_books} works.")
-
-    while is_running:
-        print("\n--- MENU ---")
-        print("1. Display book catalog")
-        print("2. Check variable data types")
-        print("3. Add a new book (with data validation)")
-        print("4. Exit")
-
-        option = input("Choose an option (1-4): ").strip()
+    while True:
+        show_menu()
+        option = input("\nSeleccione una opción (1-8): ").strip()
 
         if option == "1":
-            print("\n[COMPLETE CATALOG LIST]")
-            for index, book in enumerate(catalog, start = 1):
-                print(f"{index}. {book}")
+            print("\n--- Registrar Obra de Posteguillo ---")
+            book_id = input("Código / ISBN (ej. SP-01): ")
+            book_title = input("Título del libro (ej. Africanus: El hijo del consul): ")
+            book_category = input("Saga / Categoría (ej. Trilogía de Escipión): ")
+            book_price = input("Precio en €: ")
+            book_status = input("Estado (disponible, reservada, vendida): ")
+            book_description = input("Descripción (debe incluir 'usada' o 'certificada', ej. Edición usada): ")
+
+            try:
+                add_piece(catalog, book_id, book_title, book_category, book_price, book_status, book_description)
+                print("¡Obra registrada exitosamente en el catálogo!")
+            except ValueError as e:
+                print(f"Error de validación: {e}")
+            except Exception as e:
+                print(f"Ocurrió un error inesperado: {e}")
 
         elif option == "2":
-            print("\n[DATA TYPES CONSULTATION]")
-            print(f"Variable 'catalog_title' type: {type(catalog_title)}")
-            print(f"Variable 'total_books' type: {type(total_books)}")
-            print(f"Variable 'is_running' type: {type(is_running)}")
-            print(f"Variable 'catalog' type: {type(catalog)}")
+            try:
+                titles = list_pieces(catalog)
+                if not titles:
+                    print("\nEl catálogo literario está vacío.")
+                else:
+                    print("\n--- Obras Registradas ---")
+                    for idx, title in enumerate(titles, 1):
+                        print(f"{idx}. {title}")
+            except Exception as e:
+                print(f"Error: {e}")
 
         elif option == "3":
-            new_book_title = input("Enter the title of the new book: ").strip()
-
-            # Validar que el texto no esté vacío antes de procesarlo
-            if len(new_book_title) > 0:
-
-            # Comprobar si el libro ya existe para evitar duplicados
-                if any(book['title'].lower() == new_book_title.lower() for book in catalog):
-                    print(f"[ERROR] Book '{new_book_title}' already exists in the catalog.")
+            try:
+                available_books = filter_by_status(catalog, "disponible")
+                if not available_books:
+                    print("\nNo hay obras disponibles en este momento.")
                 else:
-                    # Añadir diccionario completo para mantener la consistencia del catálogo
-                    catalog.append({"title": new_book_title, "books_series": "N/A", "year": 2026})
-                    total_books = len(catalog)
-                    print(f"\n[SUCCESS] Book '{new_book_title}' added successfully!")
-                    print(f"Updated total books: {total_books}")
-            else:
-                print("\n[ERROR] The book title cannot be empty.")
+                    print("\n--- Obras Disponibles ---")
+                    for book in available_books:
+                        print(f"- [{book['id']}] {book['name']} ({book['category']}) - {book['price']:.2f}€")
+            except ValueError as e:
+                print(f"Error: {e}")
+            except Exception as e:
+                print(f"Error: {e}")
 
         elif option == "4":
-            print("\nExiting the program. Goodbye!")
-            is_running = False
+            try:
+                average_price = get_average_price(catalog)
+                print(f"\nEl precio promedio de las obras de Posteguillo es: {average_price:.2f}€")
+            except Exception as e:
+                print(f"Error: {e}")
 
+        elif option == "5":
+            book_id = input("\nIngrese el código/ISBN de la obra a buscar: ").strip()
+            try:
+                book = find_piece_by_id(catalog, book_id)
+                if book:
+                    print("\n--- Ficha de la Obra ---")
+                    print(f"Código / ISBN : {book['id']}")
+                    print(f"Título        : {book['name']}")
+                    print(f"Saga          : {book['category']}")
+                    print(f"Precio        : {book['price']:.2f}€")
+                    print(f"Estado        : {book['status']}")
+                    print(f"Descripción   : {book['description']}")
+                else:
+                    print("\nNo se encontró ninguna obra con ese código.")
+            except Exception as e:
+                print(f"Error: {e}")
+
+        elif option == "6":
+            book_id = input("\nIngrese el código/ISBN de la obra a eliminar: ").strip()
+            try:
+                remove_piece(catalog, book_id)
+                print("¡Obra eliminada del catálogo con éxito!")
+            except ValueError as e:
+                print(f"Error: {e}")
+            except Exception as e:
+                print(f"Error: {e}")
+
+        elif option == "7":
+            try:
+                summary = get_catalog_summary(catalog)
+                if not summary:
+                    print("\nEl catálogo literario está vacío.")
+                else:
+                    print("\n--- Resumen por Saga / Categoría ---")
+                    for category, count in summary.items():
+                        print(f"- {category}: {count} obra(s)")
+            except Exception as e:
+                print(f"Error: {e}")
+
+        elif option == "8":
+            print("\nCerrando la biblioteca de Roma. ¡Ave, César y hasta pronto!")
+            break
         else:
-            print("\n[ERROR] Invalid option. Please enter a number between 1 and 4.")
+            print("\nOpción inválida. Por favor, seleccione un número del 1 al 8.")
+
 
 if __name__ == "__main__":
     main()
