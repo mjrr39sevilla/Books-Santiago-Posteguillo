@@ -17,7 +17,7 @@ def validate_not_empty(value, field_name):
 def validate_price(price):
     """Valida que el precio sea numérico y mayor que cero."""
     try:
-        numeric_price = float(price)
+        numeric_price = float(str(price).replace(",", "."))
     except (ValueError, TypeError):
         raise ValueError("El precio del libro debe ser un valor numérico válido.")
 
