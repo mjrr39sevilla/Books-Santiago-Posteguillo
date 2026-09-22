@@ -73,6 +73,5 @@ def main():
         else:
             print("\n[ERROR] Invalid option. Please enter a number between 1 and 4.")
 
-
 if __name__ == "__main__":
     main()
