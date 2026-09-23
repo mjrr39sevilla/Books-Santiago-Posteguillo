@@ -139,13 +139,8 @@ def handle_find_book(catalog):
 
 def handle_remove_book(catalog):
     book_id = input("\nIngrese el código/ISBN de la obra a eliminar: ").strip()
-    try:
-        remove_piece(catalog, book_id)
+    if remove_piece(catalog, book_id):
         print("¡Obra eliminada del catálogo con éxito!")
-    except ValueError as e:
-        print(f"Error: {e}")
-    except Exception as e:
-        print(f"Error: {e}")
 
 
 def handle_summary(catalog):

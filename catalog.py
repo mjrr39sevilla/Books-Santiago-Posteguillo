@@ -57,13 +57,15 @@ def remove_piece(catalog, piece_id):
     if not isinstance(catalog, list):
         raise TypeError("El catálogo debe ser una lista.")
 
-    piece = find_piece_by_id(catalog, piece_id)
-    if piece is None:
-        raise ValueError(f"No se encontró ningún libro con el código '{piece_id}'.")
-
-    catalog.remove(piece)
-    return True
-
+    try:
+        piece = find_piece_by_id(catalog, piece_id)
+        if piece is None:
+            raise ValueError(f"No se encontró ningún libro con el código '{piece_id}'.")
+        catalog.remove(piece)
+        return True
+    except ValueError as e:
+        print(f"[ERROR] {e}")
+        return False
 
 def get_catalog_summary(catalog):
     """Retorna un diccionario con la cantidad de libros agrupados por saga/categoría."""
