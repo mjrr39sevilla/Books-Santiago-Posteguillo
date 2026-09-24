@@ -4,10 +4,10 @@ Tema: Santiago Posteguillo y su obra
 """
 
 from catalog import (
-    add_piece,
-    list_pieces,
-    find_piece_by_id,
-    remove_piece,
+    add_book,
+    list_books,
+    find_book_by_id,
+    remove_book,
     get_catalog_summary,
     filter_by_status,
     get_average_price
@@ -36,7 +36,7 @@ def load_initial_catalog(catalog):
     por las mismas validaciones que un alta manual desde el menú."""
     for book in INITIAL_CATALOG:
         try:
-            add_piece(
+            add_book(
                 catalog,
                 book["id"],
                 book["title"],
@@ -75,7 +75,7 @@ def handle_register_book(catalog):
     book_description = input("Descripción (debe incluir 'usada' o 'certificada', ej. Edición usada): ")
 
     try:
-        add_piece(catalog, book_id, book_title, book_category, book_price, book_status, book_description)
+        add_book(catalog, book_id, book_title, book_category, book_price, book_status, book_description)
         print("¡Obra registrada exitosamente en el catálogo!")
     except ValueError as e:
         print(f"Error de validación: {e}")
@@ -85,7 +85,7 @@ def handle_register_book(catalog):
 
 def handle_list_titles(catalog):
     try:
-        titles = list_pieces(catalog)
+        titles = list_books(catalog)
         if not titles:
             print("\nEl catálogo literario está vacío.")
         else:
@@ -104,7 +104,7 @@ def handle_show_available(catalog):
         else:
             print("\n--- Obras Disponibles ---")
             for book in available_books:
-                print(f"- [{book['id']}] {book['name']} ({book['category']}) - {book['price']:.2f}€")
+                print(f"- [{book['id']}] {book['title']} ({book['category']}) - {book['price']:.2f}€")
     except ValueError as e:
         print(f"Error: {e}")
     except Exception as e:
@@ -126,7 +126,7 @@ def handle_find_book(catalog):
         if book:
             print("\n--- Ficha de la Obra ---")
             print(f"Código / ISBN : {book['id']}")
-            print(f"Título        : {book['name']}")
+            print(f"Título        : {book['title']}")
             print(f"Saga          : {book['category']}")
             print(f"Precio        : {book['price']:.2f}€")
             print(f"Estado        : {book['status']}")
@@ -139,8 +139,11 @@ def handle_find_book(catalog):
 
 def handle_remove_book(catalog):
     book_id = input("\nIngrese el código/ISBN de la obra a eliminar: ").strip()
-    if remove_piece(catalog, book_id):
+    try:
+        remove_book(catalog, book_id)
         print("¡Obra eliminada del catálogo con éxito!")
+    except ValueError as e:
+        print(f"[ERROR] {e}")
 
 
 def handle_summary(catalog):
