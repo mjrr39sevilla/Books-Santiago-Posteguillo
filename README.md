@@ -1,7 +1,6 @@
-## Books-Santiago-Posteguillo
+# Books-Santiago-Posteguillo
 Obra literaria del escritor valenciano Santiago Posteguillo.
 
-# Santiago Posteguillo Collection
 ---
 
 ## Reto I — Santiago Posteguillo Collection
@@ -23,15 +22,8 @@ El programa opera a través de un menú interactivo en la consola con las siguie
    - Añade la nueva obra como un diccionario estructurado y actualiza dinámicamente el recuento total de libros.
 4. **Salir:** Finaliza de forma limpia el bucle del programa y muestra un mensaje de despedida.
 
-### ⚙️ Cómo ejecutar el programa
-1. Asegúrate de tener Python instalado en tu equipo.
-2. Clona este repositorio o descarga los archivos fuente.
-3. Abre tu terminal o línea de comandos en el directorio del proyecto.
-4. Ejecuta la aplicación utilizando el siguiente comando:
-   ```bash
-   python main.py
-
 ### 💻 Ejemplo de interacción
+```
 --- MENU ---
 1. Display book catalog
 2. Check variable data types
@@ -42,10 +34,11 @@ Enter the title of the new book: El escalón 33
 
 [SUCCESS] Book 'El escalón 33' added successfully!
 Updated total books: 14
+```
 
 ---
 
-## Reto II — Refactorización con funciones, módulos y manejo de errores
+## Reto II — Santiago Posteguillo Collection
 
 ### 📌 Objetivo
 Refactorizar el catálogo del Reto I aplicando funciones de responsabilidad única, uso de `return`, manejo de errores con `try/except`, lanzamiento de excepciones (`raise`), validaciones tempranas y organización del código en módulos independientes.
@@ -56,24 +49,24 @@ Cada libro se representa ahora como un diccionario con esta estructura:
 ```python
 {
     "id": "SP-01",
-    "name": "Africanus: el hijo del cónsul",
+    "title": "Africanus: el hijo del cónsul",
     "category": "Trilogía de Africanus",
     "price": 19.95,
     "status": "disponible",
     "description": "Edición usada, buen estado"
 }
-
 ```
 - `status` permitido: `disponible`, `reservada`, `vendida`.
 - `description` debe contener obligatoriamente la palabra `usada` o `certificada`.
 
-
 ### 🗂️ Estructura del proyecto
+```
 Books-Santiago-Posteguillo/
-├── catalog.py -> Lógica del catálogo (agregar, listar, buscar, eliminar, filtrar, métricas)
-├── validations.py -> Validaciones de datos de una obra
-├── main.py -> Menú interactivo y flujo principal
+├── catalog.py       -> Lógica del catálogo (agregar, listar, buscar, eliminar, filtrar, métricas)
+├── validations.py   -> Validaciones de datos de una obra
+├── main.py          -> Menú interactivo y flujo principal
 └── README.md
+```
 
 `catalog.py` se importa desde `main.py`. `validations.py` se importa desde `catalog.py`. La lógica de validación no se repite en ningún otro archivo.
 
@@ -92,6 +85,8 @@ Menú interactivo ampliado a 8 opciones:
 Las funciones de `catalog.py` y `validations.py` validan los datos de entrada y lanzan `ValueError` con mensajes descriptivos cuando algo no es correcto (campo vacío, precio no numérico, estado no permitido, descripción incompleta, id inexistente, etc.). `main.py` captura esas excepciones con `try/except` en cada opción del menú, mostrando un mensaje claro sin interrumpir la ejecución del programa.
 
 ### 💻 Ejemplo de interacción
+```
+==================================================
 BIBLIOTECA - OBRAS DE SANTIAGO POSTEGUILLO
 Registrar una obra (libro)
 Mostrar títulos de todas las obras
@@ -106,18 +101,22 @@ Seleccione una opción (1-8): 6
 
 Ingrese el código/ISBN de la obra a eliminar: SP-98
 [ERROR] No se encontró ningún libro con el código 'SP-98'.
+```
 
 ---
 
-### ⚙️ Cómo ejecutar el programa
+## ⚙️ Cómo ejecutar el programa
 1. Asegúrate de tener Python instalado en tu equipo.
 2. Clona este repositorio o descarga los archivos fuente.
 3. Abre tu terminal o línea de comandos en el directorio del proyecto.
 4. Ejecuta la aplicación utilizando el siguiente comando:
 ```bash
-   python main.py
+python main.py
 ```
 
-### 🛠️ Tecnologías utilizadas
+## 🔀 Flujo de trabajo con Git
+El desarrollo del Reto II se realizó en la rama `feature/posteguillo-updates`, manteniendo commits independientes por cada mejora (refactor a funciones, manejo de errores, organización en módulos, correcciones y documentación), antes de integrarse en `main`.
+
+## 🛠️ Tecnologías utilizadas
 * **Python 3.14.7**: Lenguaje de programación principal.
 * **Git y GitHub**: Control de versiones y repositorio de documentación del proyecto.
