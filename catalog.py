@@ -26,7 +26,7 @@ def add_book(catalog, book_id, title, category, price, status, description):
     if book_exists(catalog, v_id):
         raise ValueError(f"Ya existe un libro registrado con el código/ISBN '{v_id}'.")
 
-        book = {
+    book = {
         "id": v_id,
         "title": v_title,
         "category": v_category,
