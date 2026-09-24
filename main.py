@@ -32,7 +32,7 @@ INITIAL_CATALOG = [
 
 
 def load_initial_catalog(catalog):
-    """Carga el catálogo de partida usando add_piece, para que pase
+    """Carga el catálogo de partida usando add_book, para que pase
     por las mismas validaciones que un alta manual desde el menú."""
     for book in INITIAL_CATALOG:
         try:
@@ -122,7 +122,7 @@ def handle_average_price(catalog):
 def handle_find_book(catalog):
     book_id = input("\nIngrese el código/ISBN de la obra a buscar: ").strip()
     try:
-        book = find_piece_by_id(catalog, book_id)
+        book = find_book_by_id(catalog, book_id)
         if book:
             print("\n--- Ficha de la Obra ---")
             print(f"Código / ISBN : {book['id']}")
