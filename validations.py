@@ -2,7 +2,6 @@
 Reto II Python Catálogo de colecciones
 Tema: Santiago Posteguillo y su obra
 """
-# validations.py
 
 VALID_STATUSES = ("disponible", "reservada", "vendida")
 
